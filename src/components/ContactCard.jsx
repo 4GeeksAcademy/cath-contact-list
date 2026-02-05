@@ -1,11 +1,18 @@
 import React from "react";
 import useGlobalReducer from "../hooks/useGlobalReducer";
+import { useNavigate } from "react-router-dom";
 
 const ContactCard = ({ contact }) => {
   const { actions } = useGlobalReducer();
 
   const handleDelete = () => {
     actions.deleteContact(contact.id);
+  };
+
+  const navigate = useNavigate();
+
+  const handleUpdate = () => {
+    navigate(`/update-contact/${contact.id}`);
   };
 
   return (
@@ -45,11 +52,17 @@ const ContactCard = ({ contact }) => {
           </div>
 
           <div className="d-flex gap-2">
-            <button className="btn btn-outline-secondary">
+            <button
+              className="btn btn-outline-secondary"
+              onClick={handleUpdate}
+            >
               <i className="fa-solid fa-pencil"></i>
             </button>
 
-            <button className="btn btn-outline-danger" onClick={handleDelete}>
+            <button
+              className="btn btn-outline-secondary"
+              onClick={handleDelete}
+            >
               <i className="fa-solid fa-trash-can"></i>
             </button>
           </div>

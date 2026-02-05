@@ -69,6 +69,24 @@ export function StoreProvider({ children }) {
 
       dispatch({ type: "delete_contact", payload: id });
     },
+
+    updateContact: async (id, updatedInfo) => {
+      const response = await fetch(
+        url + "agendas/" + slug + "/contacts/" + id,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updatedInfo),
+        },
+      );
+
+      const updatedContact = await response.json();
+
+      dispatch({
+        type: "update_contact",
+        payload: updatedContact,
+      });
+    },
   };
 
   // Provide the store and dispatch method to all child components.

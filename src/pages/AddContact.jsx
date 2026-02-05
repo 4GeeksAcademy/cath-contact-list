@@ -2,10 +2,14 @@ import { useState } from "react";
 import useGlobalReducer from "../hooks/useGlobalReducer";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 export const AddContact = () => {
   const { actions } = useGlobalReducer();
   const navigate = useNavigate();
+
+  const { id } = useParams();
+  const isUpdateMode = Boolean(id);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -23,7 +27,13 @@ export const AddContact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await actions.addContact(formData);
+
+    if (isUpdateMode) {
+      await actions.updateContact(id, formData);
+    } else {
+      await actions.addContact(formData);
+    }
+
     navigate("/");
   };
 
